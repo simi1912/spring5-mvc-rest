@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map( customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customers/"+customer.getId());
+                    customerDTO.setCustomerUrl(getCustomerUrl(customer));
                     return  customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id)
                 .map( customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customers/"+customer.getId());
+                    customerDTO.setCustomerUrl(getCustomerUrl(customer));
                     return  customerDTO;
                 })
                 .orElseThrow(RuntimeException::new);
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDTO saveAndReturnDTO(Customer customer) {
         Customer savedCustomer = customerRepository.save(customer);
         CustomerDTO returnedDto = customerMapper.customerToCustomerDTO(savedCustomer);
-        returnedDto.setCustomerUrl("/api/v1/customers/"+savedCustomer.getId());
+        returnedDto.setCustomerUrl(getCustomerUrl(savedCustomer));
         return returnedDto;
     }
 
@@ -76,10 +76,18 @@ public class CustomerServiceImpl implements CustomerService {
 
             Customer savedCustomer = customerRepository.save(customer);
             CustomerDTO savedCustomerDTO = customerMapper.customerToCustomerDTO(savedCustomer);
-            savedCustomerDTO.setCustomerUrl("/api/v1/customers/"+savedCustomer.getId());
+            savedCustomerDTO.setCustomerUrl(getCustomerUrl(savedCustomer));
 
             return savedCustomerDTO;
         }).orElseThrow(RuntimeException::new);
     }
 
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
+    }
+
+    private String getCustomerUrl(Customer customer) {
+        return "/api/v1/customers/" + customer.getId();
+    }
 }
