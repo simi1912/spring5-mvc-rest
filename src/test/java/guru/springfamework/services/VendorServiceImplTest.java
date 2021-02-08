@@ -12,10 +12,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class VendorServiceImplTest {
 
+    private static final String BASE_URL = "/api/v1/vendors";
     @Mock
     VendorRepository vendorRepository;
 
@@ -40,5 +42,21 @@ public class VendorServiceImplTest {
         List<VendorDTO> vendorDTOS = vendorService.getAllVendors();
 
         assertEquals(vendors.size(), vendorDTOS.size());
+    }
+
+    @Test
+    public void createNewVendor(){
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName("Foo");
+        Vendor savedVendor = new Vendor();
+        savedVendor.setId(1L);
+        savedVendor.setName("Foo");
+
+        when(vendorRepository.save(any())).thenReturn(savedVendor);
+
+        VendorDTO savedDto = vendorService.createNewVendor(vendorDTO);
+
+        assertEquals(savedVendor.getName(), savedDto.getName());
+        assertEquals(BASE_URL+"/"+savedVendor.getId(), savedDto.getCustomerUrl());
     }
 }

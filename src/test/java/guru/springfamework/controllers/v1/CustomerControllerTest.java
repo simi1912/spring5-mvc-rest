@@ -39,7 +39,6 @@ public class CustomerControllerTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        Object[] controllers;
         mockMvc = MockMvcBuilders.standaloneSetup(customerController)
                 .setControllerAdvice(RestResponseEntityExceptionHandler.class).build();
     }

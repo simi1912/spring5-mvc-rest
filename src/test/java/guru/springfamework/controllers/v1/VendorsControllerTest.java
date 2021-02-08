@@ -14,9 +14,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static guru.springfamework.controllers.v1.AbstractRestControllerTest.asJsonString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,4 +58,25 @@ public class VendorsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.vendors", hasSize(2)));
     }
+
+    @Test
+    public void saveVendor() throws Exception{
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName("Foo");
+
+        VendorDTO savedVendor = new VendorDTO();
+        savedVendor.setName("Foo");
+        savedVendor.setCustomerUrl(BASE_URL+"/99");
+
+        when(vendorService.createNewVendor(any())).thenReturn(savedVendor);
+
+        mockMvc.perform(post(BASE_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(asJsonString(vendorDTO)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", equalTo(savedVendor.getName())))
+                .andExpect(jsonPath("$.customer_url", equalTo(savedVendor.getCustomerUrl())));
+    }
+
+
 }
