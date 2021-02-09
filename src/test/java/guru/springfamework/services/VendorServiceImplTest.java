@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class VendorServiceImplTest {
 
@@ -24,7 +24,7 @@ public class VendorServiceImplTest {
     VendorService vendorService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
         vendorService = new VendorServiceImpl(vendorRepository);
     }
@@ -58,5 +58,11 @@ public class VendorServiceImplTest {
 
         assertEquals(savedVendor.getName(), savedDto.getName());
         assertEquals(BASE_URL+"/"+savedVendor.getId(), savedDto.getCustomerUrl());
+    }
+
+    @Test
+    public void deleteById(){
+        vendorService.deleteById(1L);
+        verify(vendorRepository, times(1)).deleteById(1L);
     }
 }

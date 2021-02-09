@@ -18,9 +18,8 @@ import static guru.springfamework.controllers.v1.AbstractRestControllerTest.asJs
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +35,7 @@ public class VendorsControllerTest {
     MockMvc mockMvc;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
         Object[] controllers;
         mockMvc = MockMvcBuilders.standaloneSetup(vendorsController)
@@ -78,5 +77,13 @@ public class VendorsControllerTest {
                 .andExpect(jsonPath("$.customer_url", equalTo(savedVendor.getCustomerUrl())));
     }
 
+    @Test
+    public void deleteVendor() throws Exception{
+        mockMvc.perform(delete(BASE_URL+"/1")
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(vendorService, times(1)).deleteById(1L);
+    }
 
 }

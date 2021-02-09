@@ -47,4 +47,9 @@ public class VendorServiceImpl implements VendorService {
     private String getVendorUrl(Vendor vendor) {
         return BASE_URL + vendor.getId();
     }
+
+    @Override
+    public void deleteById(Long id) {
+        vendorRepository.deleteById(id);
+    }
 }
