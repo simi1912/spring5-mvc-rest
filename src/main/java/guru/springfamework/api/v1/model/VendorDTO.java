@@ -7,6 +7,6 @@ import lombok.Data;
 public class VendorDTO {
 
     private String name;
-    @JsonProperty("customer_url")
-    private String customerUrl;
+    @JsonProperty("vendor_url")
+    private String vendorUrl;
 }

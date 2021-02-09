@@ -25,7 +25,7 @@ public class VendorServiceImpl implements VendorService {
         return vendorRepository.findAll().stream()
                 .map(vendor -> {
                     VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
-                    vendorDTO.setCustomerUrl(getVendorUrl(vendor));
+                    vendorDTO.setVendorUrl(getVendorUrl(vendor));
                     return vendorDTO;
                 })
                 .collect(Collectors.toList());
@@ -37,19 +37,32 @@ public class VendorServiceImpl implements VendorService {
         return saveAndReturnDTO(customer);
     }
 
+
+
+    @Override
+    public void deleteById(Long id) {
+        vendorRepository.deleteById(id);
+    }
+
+    @Override
+    public VendorDTO getVendorById(Long id) {
+        return vendorRepository.findById(id)
+                .map( vendor -> {
+                    VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
+                    vendorDTO.setVendorUrl(getVendorUrl(vendor));
+                    return vendorDTO;
+                })
+                .orElseThrow(()-> new ResourceNotFoundException("Vendor not found"));
+    }
+
     private VendorDTO saveAndReturnDTO(Vendor vendor) {
         Vendor savedVendor = vendorRepository.save(vendor);
         VendorDTO returnedDTO = vendorMapper.vendorToVendorDTO(savedVendor);
-        returnedDTO.setCustomerUrl(getVendorUrl(savedVendor));
+        returnedDTO.setVendorUrl(getVendorUrl(savedVendor));
         return returnedDTO;
     }
 
     private String getVendorUrl(Vendor vendor) {
         return BASE_URL + vendor.getId();
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        vendorRepository.deleteById(id);
     }
 }

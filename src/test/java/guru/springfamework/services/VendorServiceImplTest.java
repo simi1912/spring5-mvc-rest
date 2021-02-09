@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,12 +58,26 @@ public class VendorServiceImplTest {
         VendorDTO savedDto = vendorService.createNewVendor(vendorDTO);
 
         assertEquals(savedVendor.getName(), savedDto.getName());
-        assertEquals(BASE_URL+"/"+savedVendor.getId(), savedDto.getCustomerUrl());
+        assertEquals(BASE_URL+"/"+savedVendor.getId(), savedDto.getVendorUrl());
     }
 
     @Test
     public void deleteById(){
         vendorService.deleteById(1L);
         verify(vendorRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void getVendorById(){
+        Vendor returnedVendor = new Vendor();
+        returnedVendor.setId(1L);
+        returnedVendor.setName("Foo");
+
+        when(vendorRepository.findById(1L)).thenReturn(Optional.of(returnedVendor));
+
+        VendorDTO vendorDTO = vendorService.getVendorById(1L);
+
+        assertEquals(returnedVendor.getName(), vendorDTO.getName());
+        assertEquals(BASE_URL+"/1", vendorDTO.getVendorUrl());
     }
 }

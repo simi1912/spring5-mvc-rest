@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
                     customerDTO.setCustomerUrl(getCustomerUrl(customer));
                     return  customerDTO;
                 })
-                .orElseThrow( ()-> new ResourceNotFoundException("Resorce not found"));
+                .orElseThrow( ()-> new ResourceNotFoundException("Customer not found"));
     }
 
     @Override
