@@ -52,18 +52,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO saveCustomerByDTO(Long id, CustomerDTO customerDTO) {
+    public CustomerDTO putVendor(Long id, CustomerDTO customerDTO) {
         Customer customer = customerMapper.customerDtoToCustomer(customerDTO);
         customer.setId(id);
 
         return saveAndReturnDTO(customer);
-    }
-
-    private CustomerDTO saveAndReturnDTO(Customer customer) {
-        Customer savedCustomer = customerRepository.save(customer);
-        CustomerDTO returnedDto = customerMapper.customerToCustomerDTO(savedCustomer);
-        returnedDto.setCustomerUrl(getCustomerUrl(savedCustomer));
-        return returnedDto;
     }
 
     @Override
@@ -74,17 +67,20 @@ public class CustomerServiceImpl implements CustomerService {
             if(customerDTO.getLastname() !=null)
                 customer.setLastname(customerDTO.getLastname());
 
-            Customer savedCustomer = customerRepository.save(customer);
-            CustomerDTO savedCustomerDTO = customerMapper.customerToCustomerDTO(savedCustomer);
-            savedCustomerDTO.setCustomerUrl(getCustomerUrl(savedCustomer));
-
-            return savedCustomerDTO;
-        }).orElseThrow(RuntimeException::new);
+            return saveAndReturnDTO(customer);
+        }).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
     }
 
     @Override
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private CustomerDTO saveAndReturnDTO(Customer customer) {
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO returnedDto = customerMapper.customerToCustomerDTO(savedCustomer);
+        returnedDto.setCustomerUrl(getCustomerUrl(savedCustomer));
+        return returnedDto;
     }
 
     private String getCustomerUrl(Customer customer) {

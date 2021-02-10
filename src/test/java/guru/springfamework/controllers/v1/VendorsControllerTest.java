@@ -102,4 +102,43 @@ public class VendorsControllerTest {
 
     }
 
+    @Test
+    public void patchVendor() throws Exception{
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName("Foo");
+
+        VendorDTO savedVendor = new VendorDTO();
+        savedVendor.setName("Foo");
+        savedVendor.setVendorUrl(BASE_URL+"/1");
+
+        when(vendorService.patchVendor(1L, vendorDTO)).thenReturn(savedVendor);
+
+        mockMvc.perform(patch(BASE_URL+"/1")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(asJsonString(vendorDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", equalTo(savedVendor.getName())))
+                .andExpect(jsonPath("$.vendor_url", equalTo(savedVendor.getVendorUrl())));
+
+    }
+
+    @Test
+    public void putVendor() throws Exception{
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName("Foo");
+
+        VendorDTO savedVendor = new VendorDTO();
+        savedVendor.setName("Foo");
+        savedVendor.setVendorUrl(BASE_URL+"/1");
+
+        when(vendorService.putVendor(1L, vendorDTO)).thenReturn(savedVendor);
+
+        mockMvc.perform(put(BASE_URL+"/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(vendorDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", equalTo(savedVendor.getName())))
+                .andExpect(jsonPath("$.vendor_url", equalTo(savedVendor.getVendorUrl())));
+    }
+
 }

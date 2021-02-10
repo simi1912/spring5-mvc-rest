@@ -7,9 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/vendors")
+@RequestMapping(VendorsController.BASE_URL)
 public class VendorsController {
 
+    protected static final String BASE_URL = "/api/v1/vendors";
     private final VendorService vendorService;
 
     public VendorsController(VendorService vendorService) {
@@ -38,5 +39,17 @@ public class VendorsController {
     @ResponseStatus(HttpStatus.OK)
     public VendorDTO getVendor(@PathVariable Long id){
         return vendorService.getVendorById(id);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public VendorDTO patchVendor(@PathVariable Long id, @RequestBody VendorDTO vendorDTO){
+        return vendorService.patchVendor(id, vendorDTO);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public VendorDTO putVendor(@PathVariable Long id, @RequestBody VendorDTO vendorDTO){
+        return vendorService.putVendor(id, vendorDTO);
     }
 }

@@ -55,6 +55,23 @@ public class VendorServiceImpl implements VendorService {
                 .orElseThrow(()-> new ResourceNotFoundException("Vendor not found"));
     }
 
+    @Override
+    public VendorDTO patchVendor(Long id, VendorDTO vendorDTO) {
+        return vendorRepository.findById(id).map( vendor ->{
+            if(vendorDTO.getName() != null)
+                vendor.setName(vendorDTO.getName());
+
+            return saveAndReturnDTO(vendor);
+        }).orElseThrow( () -> new ResourceNotFoundException("Vendor not found"));
+    }
+
+    @Override
+    public VendorDTO putVendor(Long id, VendorDTO vendorDTO) {
+        Vendor vendor = vendorMapper.vendorDtoToVendor(vendorDTO);
+        vendor.setId(id);
+        return saveAndReturnDTO(vendor);
+    }
+
     private VendorDTO saveAndReturnDTO(Vendor vendor) {
         Vendor savedVendor = vendorRepository.save(vendor);
         VendorDTO returnedDTO = vendorMapper.vendorToVendorDTO(savedVendor);

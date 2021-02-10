@@ -13,4 +13,8 @@ public interface VendorService {
     void deleteById(Long id);
 
     VendorDTO getVendorById(Long id);
+
+    VendorDTO patchVendor(Long id, VendorDTO vendorDTO);
+
+    VendorDTO putVendor(Long id, VendorDTO vendorDTO);
 }

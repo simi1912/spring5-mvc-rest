@@ -80,4 +80,21 @@ public class VendorServiceImplTest {
         assertEquals(returnedVendor.getName(), vendorDTO.getName());
         assertEquals(BASE_URL+"/1", vendorDTO.getVendorUrl());
     }
+
+    @Test
+    public void putVendor(){
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName("Foo");
+
+        Vendor returnedVendor = new Vendor();
+        returnedVendor.setId(1L);
+        returnedVendor.setName("Foo");
+
+        when(vendorRepository.save(any())).thenReturn(returnedVendor);
+
+        VendorDTO returnedVendorDTO = vendorService.putVendor(1L, vendorDTO);
+
+        assertEquals(vendorDTO.getName(), returnedVendorDTO.getName());
+        assertEquals(BASE_URL+"/1", returnedVendorDTO.getVendorUrl());
+    }
 }

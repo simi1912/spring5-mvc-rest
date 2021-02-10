@@ -108,7 +108,7 @@ public class CustomerControllerTest {
         returnedDTO.setLastname("lastName1");
         returnedDTO.setCustomerUrl(BASE_URL + "1");
 
-        when(customerService.saveCustomerByDTO(anyLong(), any())).thenReturn(returnedDTO);
+        when(customerService.putVendor(anyLong(), any())).thenReturn(returnedDTO);
 
         mockMvc.perform(put(BASE_URL + "1")
                     .contentType(MediaType.APPLICATION_JSON)

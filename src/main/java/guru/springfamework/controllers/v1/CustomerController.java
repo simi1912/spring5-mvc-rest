@@ -37,7 +37,7 @@ public class CustomerController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO updateCustomer(@PathVariable String id, @RequestBody CustomerDTO customerDTO){
-        return customerService.saveCustomerByDTO(Long.valueOf(id), customerDTO);
+        return customerService.putVendor(Long.valueOf(id), customerDTO);
     }
 
     @PatchMapping("/{id}")

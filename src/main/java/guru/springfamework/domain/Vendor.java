@@ -10,6 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 public class Vendor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

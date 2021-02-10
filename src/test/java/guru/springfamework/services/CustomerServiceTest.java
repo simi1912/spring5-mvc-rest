@@ -56,7 +56,7 @@ public class CustomerServiceTest {
         customer1.setLastname("lastName1");
         customer1.setFirstname("firstName1");
 
-        when(customerRepository.findById(any())).thenReturn(Optional.ofNullable(customer1));
+        when(customerRepository.findById(any())).thenReturn(Optional.of(customer1));
 
         CustomerDTO customerDTO = customerService.getCustomerById(1L);
 
@@ -95,7 +95,7 @@ public class CustomerServiceTest {
 
         when(customerRepository.save(any())).thenReturn(savedCustomer);
 
-        CustomerDTO savedDto = customerService.saveCustomerByDTO(1L, customerDTO);
+        CustomerDTO savedDto = customerService.putVendor(1L, customerDTO);
 
         assertEquals(customerDTO.getFirstname(), savedDto.getFirstname());
         assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
@@ -103,7 +103,7 @@ public class CustomerServiceTest {
 
     @Test
     public void deleteCustomerById(){
-        customerService.deleteCustomerById(1l);
+        customerService.deleteCustomerById(1L);
 
         verify(customerRepository, times(1)).deleteById(1L);
     }
