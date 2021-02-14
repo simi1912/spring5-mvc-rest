@@ -11,17 +11,24 @@
     <description>Demo project for Spring Boot</description>
 
     <parent>
+		<groupId>guru.springframework</groupId>
         <artifactId>spring5-mvc-rest-parent</artifactId>
-        <groupId>guru.springframework</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+<!--    <properties>-->
+<!--        <maven.compiler.source>8</maven.compiler.source>-->
+<!--        <maven.compiler.target>8</maven.compiler.target>-->
+<!--    </properties>-->
 
 	<dependencies>
+
+		<dependency>
+			<groupId>guru.springframework</groupId>
+			<artifactId>rest-model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -123,14 +130,6 @@
 					</compilerArgs>
 				</configuration>
 			</plugin>
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-surefire-plugin</artifactId>-->
-<!--				<version>2.22.1</version>-->
-<!--				<configuration>-->
-<!--					<useSystemClassLoader>false</useSystemClassLoader>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
 		</plugins>
 	</build>
 

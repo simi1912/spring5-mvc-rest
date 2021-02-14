@@ -5,18 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rest-model</artifactId>
-    <version>jar</version>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-    </dependencies>
+    <packaging>jar</packaging>
 
     <name>spring5-mvc-model</name>
     <description>Demo project for Spring Boot</description>
@@ -27,6 +16,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <!--<dependencies>-->
+
+    <!--</dependencies>-->
     <build>
         <plugins>
             <plugin>
@@ -42,6 +34,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <!-- The package of your generated sources -->
                     <packageName>guru.springframework.model</packageName>
                     <sources>
                         <source>src/main/resources/xsd</source>
@@ -50,5 +43,4 @@
             </plugin>
         </plugins>
     </build>
-    
 </project>

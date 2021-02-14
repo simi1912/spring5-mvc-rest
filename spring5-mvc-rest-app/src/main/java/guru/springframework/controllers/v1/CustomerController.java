@@ -1,12 +1,12 @@
 package guru.springframework.controllers.v1;
 
-import guru.springframework.api.v1.model.CustomerDTO;
+import guru.springframework.model.CustomerDTO;
+import guru.springframework.model.CustomerListDTO;
+import guru.springframework.services.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import guru.springframework.api.v1.model.CustomerListDTO;
-import guru.springframework.services.CustomerService;
 
 @Api(tags = {"This is Customer Controller"})
 @RestController
@@ -23,7 +23,9 @@ public class CustomerController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getAllCustomers(){
-        return new CustomerListDTO(customerService.getAllCustomer());
+        CustomerListDTO customerListDTO = new CustomerListDTO();
+        customerListDTO.getCustomers().addAll(customerService.getAllCustomer());
+        return customerListDTO;
     }
 
     @ApiOperation(value = "This will get individual customers")

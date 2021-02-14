@@ -1,6 +1,6 @@
 package guru.springframework.controllers.v1;
 
-import guru.springframework.api.v1.model.CustomerDTO;
+import guru.springframework.model.CustomerDTO;
 import guru.springframework.services.CustomerService;
 import guru.springframework.services.ResourceNotFoundException;
 import org.junit.Before;
@@ -89,16 +89,18 @@ public class CustomerControllerTest {
         CustomerDTO returnedDTO = new CustomerDTO();
         returnedDTO.setFirstname("firstName1");
         returnedDTO.setLastname("lastName1");
+        returnedDTO.setCustomerUrl(BASE_URL + "1");
 
-        when(customerService.createNewCustomer(customerDTO1)).thenReturn(returnedDTO);
+        when(customerService.createNewCustomer(any())).thenReturn(returnedDTO);
 
         mockMvc.perform(post(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(asJsonString(customerDTO1)))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstname", equalTo( returnedDTO.getFirstname() )))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customer_url", equalTo( returnedDTO.getCustomerUrl() )));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstname", equalTo(returnedDTO.getFirstname())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastname", equalTo(returnedDTO.getLastname())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerUrl", equalTo(returnedDTO.getCustomerUrl())));
     }
 
     @Test
@@ -121,7 +123,7 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstname", equalTo(customerDTO1.getFirstname())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastname", equalTo(customerDTO1.getLastname())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customer_url", equalTo(returnedDTO.getCustomerUrl())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerUrl", equalTo(returnedDTO.getCustomerUrl())));
 
     }
 
@@ -144,7 +146,7 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("firstName1")))
                 .andExpect(jsonPath("$.lastname", equalTo("lastName1")))
-                .andExpect(jsonPath("$.customer_url", equalTo(BASE_URL + "1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(BASE_URL + "1")));
     }
 
     @Test
