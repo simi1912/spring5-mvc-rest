@@ -53,6 +53,7 @@ public class VendorsControllerTest {
         when(vendorService.getAllVendors()).thenReturn(vendorDTOS);
 
         mockMvc.perform(get(BASE_URL)
+                    .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.vendors", hasSize(2)));
@@ -70,6 +71,7 @@ public class VendorsControllerTest {
         when(vendorService.createNewVendor(any())).thenReturn(savedVendor);
 
         mockMvc.perform(post(BASE_URL)
+                    .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(asJsonString(vendorDTO)))
                 .andExpect(status().isCreated())
@@ -80,6 +82,7 @@ public class VendorsControllerTest {
     @Test
     public void deleteVendor() throws Exception{
         mockMvc.perform(delete(BASE_URL+"/1")
+                    .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -95,6 +98,7 @@ public class VendorsControllerTest {
         when(vendorService.getVendorById(1L)).thenReturn(vendorDTO1);
 
         mockMvc.perform(get(BASE_URL+"/1")
+                    .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(vendorDTO1.getName())))
@@ -114,6 +118,7 @@ public class VendorsControllerTest {
         when(vendorService.patchVendor(1L, vendorDTO)).thenReturn(savedVendor);
 
         mockMvc.perform(patch(BASE_URL+"/1")
+                    .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(asJsonString(vendorDTO)))
                 .andExpect(status().isOk())
@@ -134,8 +139,9 @@ public class VendorsControllerTest {
         when(vendorService.putVendor(1L, vendorDTO)).thenReturn(savedVendor);
 
         mockMvc.perform(put(BASE_URL+"/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(vendorDTO)))
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(asJsonString(vendorDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(savedVendor.getName())))
                 .andExpect(jsonPath("$.vendor_url", equalTo(savedVendor.getVendorUrl())));
